@@ -1,3 +1,5 @@
+/*dijkstra work in the case of positive weights. if negative weight use bellman ford algorithm.
+but if confirmed there are no negative cycle then one can use dijkstra*/
 #include<bits/stdc++.h>
 using namespace std;
 const int N=1005;
