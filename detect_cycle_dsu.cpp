@@ -3,14 +3,12 @@ using namespace std;
 const int N=1e5+5;
 int par[N];
 int group_size[N];
-int level[N];
 void dsu_init(int n)
 {
     for(int i=0; i<n; i++)
     {
         par[i] = -1;
         group_size[i] = 1;
-        level[i] = 0;
     }
 }
 int dsu_find(int node)
@@ -20,13 +18,8 @@ int dsu_find(int node)
     par[node] = leader;
     return leader;
 }
+
 void dsu_union(int node1, int node2)
-{
-    int leaderA = dsu_find(node1);
-    int leaderB = dsu_find(node2);
-    par[leaderB] = leaderA;
-}
-void dsu_union_by_size(int node1,int node2)
 {
     int leaderA = dsu_find(node1);
     int leaderB = dsu_find(node2);
@@ -38,29 +31,37 @@ void dsu_union_by_size(int node1,int node2)
     else
     {
         par[leaderA]=leaderB;
-        group_size[leaderB]+= group_size[leaderA];
-    }
-}
-void dsu_union_by_level(int node1,int node2)
-{
-    int leaderA = dsu_find(node1);
-    int leaderB = dsu_find(node2);
-    if(level[leaderA]>level[leaderB])
-    {
-        par[leaderB] = leaderA;
-    }
-    else if(level[leaderB]>level[leaderA])
-    {
-        par[leaderA]= leaderB;
-    }
-    else
-    {
-        par[leaderB]=leaderA;
-        level[leaderA]++;
+        group_size[leaderB]+=group_size[leaderA];
     }
 }
 int main()
 {
-    dsu_init(7);
+    int n,e;
+    cin>>n>>e;
+    dsu_init(n);
+    bool cycle = false;
+    while(e--)
+    {
+        int a,b;
+        cin>>a>>b;
+        int leaderA = dsu_find(a);
+        int leaderB = dsu_find(b);
+        if(leaderA==leaderB)
+        {
+            cycle= true;
+        }
+        else
+        {
+            dsu_union(a,b);
+        }
+    }
+    if(cycle) cout<<"Cycle Detected!"<<endl;
+    else
+    {
+        for(int i=0; i<n; i++)
+        {
+            cout<<i<<"->"<<dsu_find(i)<<endl;
+        }
+    }
     return 0;
 }
