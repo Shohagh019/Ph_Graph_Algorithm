@@ -1,1 +1,2 @@
-Cycle Detected!
+Cycle Detected
+4202000
