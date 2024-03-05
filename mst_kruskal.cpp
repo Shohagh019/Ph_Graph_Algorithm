@@ -37,7 +37,6 @@ void dsu_union_by_size(int node1,int node2)
         group_size[leaderB]+= group_size[leaderA];
     }
 }
-
 class Edge
 {
     public:
